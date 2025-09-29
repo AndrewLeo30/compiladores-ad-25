@@ -208,3 +208,5 @@ __marimo__/
 
 # Personal extensions to ignore
 *.pdf
+*pyproject.toml
+
