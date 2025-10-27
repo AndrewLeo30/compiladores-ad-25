@@ -3,12 +3,12 @@ from patito_grammar import grammar
 
 def main():
     parser = Lark(grammar, start="start", parser="lalr")
-    test_funcs = """
-        program demo2;
-        void foo(x:int, y:float)[ { <stmt> } ];
-        main { } end
+    test_assign = """
+    program demo2;
+        var f:float;
+        main { f = 3.14; } end
     """
-    tree = parser.parse(test_funcs)
+    tree = parser.parse(test_assign)
 
     print(tree.pretty())
 

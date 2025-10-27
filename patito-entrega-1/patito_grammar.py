@@ -15,14 +15,45 @@ param: ID ":" type                    -> param
 
 # ----- BODY -----
 body: "{" statement* "}"              -> body
-statement: STATEMENT                  -> stmt_placeholder
+statement: assign
+         | condition
+         | cycle
+         | f_call
+         | print_stmt                -> print_stmt
+
+# ================== STATEMENTS ==================
+# -------- ASSIGN --------
+assign: ID "=" expr ";"                  -> assign
+
+# -------- CONDITION --------
+condition: "if" "(" expr ")" body ("else" body)? ";"   -> condition
+
+# -------- CYCLE (while do) --------
+cycle: "while" "(" expr ")" "do" body ";"              -> cycle
+
+# -------- FUNCTION CALL --------
+f_call: ID "(" [expr ("," expr)*] ")" ";"             -> f_call
+
+# -------- PRINT --------
+print_stmt: "print" "(" expr ("," expr)* ")" ";"              -> print_stmt
+
+# ================== PLACEHOLDERS ==================
+?expr: cte | EXPR                                            -> expr_placeholder
+EXPR: /<expr>/
+
+# ----- CTE -----
+cte: CTE_INT
+   | CTE_FLOAT
+   | CTE_STRING
 
 # ----- TYPE -----
 type: "int" | "float"                 -> type
 
 # ----- LEXER -----
 ID: /[a-zA-Z_][a-zA-Z0-9_]*/
-STATEMENT: /<stmt>/                 #placeholder para tests
+CTE_INT: /[0-9]+/
+CTE_FLOAT: /[0-9]+\.[0-9]+/
 
+%import common.ESCAPED_STRING -> CTE_STRING
 %ignore /[ \t\r\n]+/
 """
