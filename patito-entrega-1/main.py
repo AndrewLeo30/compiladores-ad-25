@@ -3,8 +3,14 @@ from patito_grammar import grammar
 
 def main():
     parser = Lark(grammar, start="start", parser="lalr")
-    test_code = "program myprog; vars_declaration funcs_declaration main body_declaration end"
-    tree = parser.parse(test_code)
+    test_vars = """
+        program demo1;
+        var a,intro:int;
+        var c:float;
+        main { <stmt> } end
+        """.replace("intro", "b")
+    tree = parser.parse(test_vars)
+
     print(tree.pretty())
 
 

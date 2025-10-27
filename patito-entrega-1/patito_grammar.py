@@ -3,17 +3,26 @@ start: programa
 
 programa: "program" ID ";" vars? funcs? "main" body "end"
 
-vars: VARS
-funcs: FUNCS
-body: BODY
+# ----- VARS -----
+vars: var_decl+                       -> vars_block
+var_decl: "var" id_list ":" type ";"  -> var_decl
+id_list: ID ("," ID)*                 -> id_list
 
-// Terminales
+# ----- FUNCS -----
+funcs: func_decl+                     -> funcs_block
+func_decl: "void" ID "(" [param ("," param)*] ")" "[" vars? body "]" ";"  -> func_decl
+param: ID ":" type                    -> param
+
+# ----- BODY -----
+body: "{" statement* "}"              -> body
+statement: STATEMENT                  -> stmt_placeholder
+
+# ----- TYPE -----
+type: "int" | "float"                 -> type
+
+# ----- LEXER -----
 ID: /[a-zA-Z_][a-zA-Z0-9_]*/
+STATEMENT: /<stmt>/                 #placeholder para tests
 
-VARS: "vars_declaration"
-FUNCS: "funcs_declaration"
-BODY: "body_declaration"
-
-// Ignored characters
 %ignore /[ \t\r\n]+/
 """
