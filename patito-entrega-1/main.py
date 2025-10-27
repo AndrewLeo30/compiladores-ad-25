@@ -3,11 +3,13 @@ from patito_grammar import grammar
 
 def main():
     parser = Lark(grammar, start="start", parser="lalr")
-    test_print = """
-        program p;
-        main { print(2.5); print("hello"); } end
+    test_expresion = """
+        program Expr;
+        main {
+        y = (1 + 2) * (3 - 4) / (2 + -5);
+        } end
     """
-    tree = parser.parse(test_print)
+    tree = parser.parse(test_expresion)
 
     print(tree.pretty())
 

@@ -19,7 +19,7 @@ statement: assign
          | condition
          | cycle
          | f_call
-         | print_stmt                -> print_stmt
+         | print_stmt
 
 # ================== STATEMENTS ==================
 # -------- ASSIGN --------
@@ -37,9 +37,20 @@ f_call: ID "(" [expr ("," expr)*] ")" ";"             -> f_call
 # -------- PRINT --------
 print_stmt: "print" "(" expr ("," expr)* ")" ";"              -> print_stmt
 
-# ================== PLACEHOLDERS ==================
-?expr: cte | EXPR                                            -> expr_placeholder
-EXPR: /<expr>/
+# ================== EXPRESSIONS ==================
+?expr: exp (comp_op exp)?                 -> comparison
+comp_op: ">" | "<" | "!="
+
+?exp: term (("+" | "-") term)*            -> addsub
+
+?term: factor (("*" | "/") factor)*       -> muldiv
+
+?factor: "(" expr ")"                     -> grouped
+       | sign? operand                    -> signed
+
+sign: "+" | "-"
+
+operand: ID | cte
 
 # ----- CTE -----
 cte: CTE_INT
