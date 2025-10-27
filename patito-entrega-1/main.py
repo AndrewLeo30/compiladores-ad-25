@@ -3,13 +3,12 @@ from patito_grammar import grammar
 
 def main():
     parser = Lark(grammar, start="start", parser="lalr")
-    test_vars = """
-        program demo1;
-        var a,intro:int;
-        var c:float;
-        main { <stmt> } end
-        """.replace("intro", "b")
-    tree = parser.parse(test_vars)
+    test_funcs = """
+        program demo2;
+        void foo(x:int, y:float)[ { <stmt> } ];
+        main { } end
+    """
+    tree = parser.parse(test_funcs)
 
     print(tree.pretty())
 
