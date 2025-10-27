@@ -3,12 +3,17 @@ from patito_grammar import grammar
 
 def main():
     parser = Lark(grammar, start="start", parser="lalr")
-    test_assign = """
-    program demo2;
-        var f:float;
-        main { f = 3.14; } end
+    test_condition = """
+        program demoCond;
+        main {
+        if ( <expr> ) {
+            if ( 0 ) { };
+        } else {
+        
+        };
+        } end
     """
-    tree = parser.parse(test_assign)
+    tree = parser.parse(test_condition)
 
     print(tree.pretty())
 
