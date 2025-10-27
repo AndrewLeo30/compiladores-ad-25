@@ -3,16 +3,13 @@ from patito_grammar import grammar
 
 def main():
     parser = Lark(grammar, start="start", parser="lalr")
-    test_cycle = """
-        program cycle;
+    test_f_call = """
+    program ConError;
         main {
-        while ( <expr> ) do {
-            if ( 0 ) { print("then"); } else { } ;
-            while ( <expr> ) do { print("inner"); } ;
-        } ;
+            ping()     
         } end
     """
-    tree = parser.parse(test_cycle)
+    tree = parser.parse(test_f_call)
 
     print(tree.pretty())
 
