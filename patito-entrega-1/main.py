@@ -3,13 +3,13 @@ from patito_grammar import grammar
 
 def main():
     parser = Lark(grammar, start="start", parser="lalr")
-    test_expresion = """
-        program Expr;
+    test_exp = """
+        program Exp;
         main {
-        y = (1 + 2) * (3 - 4) / (2 + -5);
+        y = (1 + 2) - (3 - 4);
         } end
     """
-    tree = parser.parse(test_expresion)
+    tree = parser.parse(test_exp)
 
     print(tree.pretty())
 
